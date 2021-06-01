@@ -38,14 +38,35 @@ void BinaryTree::Insert(int a_nValue)
 	{
 		m_pRoot->SetData(a_nValue);
 	}
-	TreeNode* pCurrentNode = nullptr;
-	m_pRoot = pCurrentNode;
-	//pCurrentNode->SetData(a_nValue);
-	while (!pCurrentNode == nullptr)
+	BinaryTree* pTest = new BinaryTree();
+	TreeNode* pCurrentNode = m_pRoot;
+	while (pCurrentNode != nullptr)
 	{
+		if (a_nValue < pCurrentNode->GetData())
+		{
+			pCurrentNode->SetLeft(pCurrentNode);
+		}
 
+		if (a_nValue > pCurrentNode->GetData())
+		{
+			pCurrentNode->SetRight(pCurrentNode);
+		}
+
+		if (a_nValue = pCurrentNode->GetData())
+		{
+			break;
+		}
 	}
-	
+
+	TreeNode* pParent = pCurrentNode;
+	if (a_nValue < pParent->GetData())
+	{
+		pCurrentNode->SetData(a_nValue);
+	}
+	else
+	{
+		pCurrentNode->SetData(a_nValue);
+	}
 }
 
 TreeNode* BinaryTree::Find(int a_nValue)
