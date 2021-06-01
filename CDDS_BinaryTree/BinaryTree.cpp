@@ -34,6 +34,17 @@ bool BinaryTree::IsEmpty() const
 // Smaller elements are placed to the left, larger onces are placed to the right.
 void BinaryTree::Insert(int a_nValue)
 {
+	if (IsEmpty() == true)
+	{
+		m_pRoot->SetData(a_nValue);
+	}
+	TreeNode* pCurrentNode = nullptr;
+	m_pRoot = pCurrentNode;
+	//pCurrentNode->SetData(a_nValue);
+	while (!pCurrentNode == nullptr)
+	{
+
+	}
 	
 }
 
