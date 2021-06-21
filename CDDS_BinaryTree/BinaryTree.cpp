@@ -38,7 +38,7 @@ void BinaryTree::Insert(int a_nValue)
 	{
 		m_pRoot->SetData(a_nValue);
 	}
-	BinaryTree* pTest = new BinaryTree();
+
 	TreeNode* pCurrentNode = m_pRoot;
 	while (pCurrentNode != nullptr)
 	{
@@ -113,15 +113,16 @@ void BinaryTree::Remove(int a_nValue)
 
 	FindNode(a_nValue, pCurrent, pParent);
 
-	if (pCurrent->HasRight())
+	if (pCurrent->GetLeft() == nullptr && pCurrent->GetRight() == nullptr)
 	{
+		if (pParent->GetLeft() == pCurrent)
+			pParent->SetLeft(nullptr);
+		if (pParent->GetRight() == pCurrent)
+			pParent->SetRight(nullptr);
 
+		delete pCurrent;
 	}
 	
-	if (!pCurrent->GetRight())
-	{
-
-	}
 }
 
 void BinaryTree::PrintOrdered()
