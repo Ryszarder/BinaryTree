@@ -13,20 +13,20 @@ using namespace std;
 
 BinaryTree::BinaryTree()
 {
-    m_pRoot = nullptr;
+	m_pRoot = nullptr;
 }
 
 BinaryTree::~BinaryTree()
 {
-	while(m_pRoot)
+	while (m_pRoot)
 	{
 		Remove(m_pRoot->GetData());
 	}
 }
 
 // Return whether the tree is empty
-bool BinaryTree::IsEmpty() const 
-{ 
+bool BinaryTree::IsEmpty() const
+{
 	return (m_pRoot == nullptr);
 }
 
@@ -34,38 +34,43 @@ bool BinaryTree::IsEmpty() const
 // Smaller elements are placed to the left, larger onces are placed to the right.
 void BinaryTree::Insert(int a_nValue)
 {
-	if (IsEmpty() == true)
+	TreeNode* node = new TreeNode(a_nValue);
+
+	if (IsEmpty())
 	{
-		m_pRoot->SetData(a_nValue);
+		m_pRoot = node;
 	}
 
-	TreeNode* pCurrentNode = m_pRoot;
-	while (pCurrentNode != nullptr)
-	{
-		if (a_nValue < pCurrentNode->GetData())
-		{
-			pCurrentNode->SetLeft(pCurrentNode);
-		}
-
-		if (a_nValue > pCurrentNode->GetData())
-		{
-			pCurrentNode->SetRight(pCurrentNode);
-		}
-
-		if (a_nValue = pCurrentNode->GetData())
-		{
-			break;
-		}
-	}
-
-	TreeNode* pParent = pCurrentNode;
-	if (a_nValue < pParent->GetData())
-	{
-		pCurrentNode->SetData(a_nValue);
-	}
 	else
 	{
-		pCurrentNode->SetData(a_nValue);
+		TreeNode* pCurrentNode = m_pRoot;
+		while (pCurrentNode != nullptr)
+		{
+			if (a_nValue < pCurrentNode->GetData())
+			{
+				pCurrentNode->SetLeft(pCurrentNode);
+			}
+
+			if (a_nValue > pCurrentNode->GetData())
+			{
+				pCurrentNode->SetRight(pCurrentNode);
+			}
+
+			if (a_nValue = pCurrentNode->GetData())
+			{
+				break;
+			}
+		}
+
+		TreeNode* pParent = pCurrentNode;
+		if (a_nValue < pParent->GetData())
+		{
+			pCurrentNode->SetData(a_nValue);
+		}
+		else
+		{
+			pCurrentNode->SetData(a_nValue);
+		}
 	}
 }
 
@@ -74,7 +79,7 @@ TreeNode* BinaryTree::Find(int a_nValue)
 	TreeNode* pCurrent = nullptr;
 	TreeNode* pParent = nullptr;
 
-	return FindNode(a_nValue, pCurrent, pParent) ? pCurrent: nullptr;
+	return FindNode(a_nValue, pCurrent, pParent) ? pCurrent : nullptr;
 }
 
 bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& ppOutParent)
@@ -152,7 +157,7 @@ void BinaryTree::Remove(int a_nValue)
 		{
 			pCurrent->SetLeft(pParent);
 		}
-		
+
 	}
 
 	/*if (pCurrent->GetLeft() == nullptr && pCurrent->GetRight() == nullptr)
@@ -179,7 +184,7 @@ void BinaryTree::PrintOrderedRecurse(TreeNode* pNode)
 
 void BinaryTree::PrintUnordered()
 {
-    PrintUnorderedRecurse(m_pRoot);
+	PrintUnorderedRecurse(m_pRoot);
 	cout << endl;
 }
 
@@ -195,7 +200,7 @@ void BinaryTree::Draw(TreeNode* selected)
 
 void BinaryTree::Draw(TreeNode* pNode, int x, int y, int horizontalSpacing, TreeNode* selected)
 {
-	
+
 	horizontalSpacing /= 2;
 
 	if (pNode)
@@ -203,7 +208,7 @@ void BinaryTree::Draw(TreeNode* pNode, int x, int y, int horizontalSpacing, Tree
 		if (pNode->HasLeft())
 		{
 			DrawLine(x, y, x - horizontalSpacing, y + 80, RED);
-			
+
 			Draw(pNode->GetLeft(), x - horizontalSpacing, y + 80, horizontalSpacing, selected);
 		}
 
