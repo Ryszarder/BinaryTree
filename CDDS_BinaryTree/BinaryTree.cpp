@@ -113,7 +113,49 @@ void BinaryTree::Remove(int a_nValue)
 
 	FindNode(a_nValue, pCurrent, pParent);
 
-	if (pCurrent->GetLeft() == nullptr && pCurrent->GetRight() == nullptr)
+	TreeNode* pMinimum = pCurrent->GetRight();
+
+	if (pCurrent->HasRight())
+	{
+		while (pMinimum->HasLeft())
+		{
+			pParent = pMinimum;
+			pMinimum = pMinimum->GetLeft();
+		}
+
+		pCurrent = pMinimum;
+
+		if (pParent->GetLeft() == pCurrent)
+		{
+			pMinimum->SetRight(pParent->GetLeft());
+		}
+
+		if (pParent->GetRight() == pCurrent)
+		{
+			pMinimum->SetRight(pParent->GetRight());
+		}
+	}
+
+	if (!pCurrent->HasRight())
+	{
+		if (pParent->GetLeft() == pCurrent)
+		{
+			pCurrent->SetLeft(pParent->GetLeft());
+		}
+
+		if (pParent->GetRight() == pCurrent)
+		{
+			pCurrent->SetLeft(pParent->GetRight());
+		}
+
+		if (pParent == pCurrent)
+		{
+			pCurrent->SetLeft(pParent);
+		}
+		
+	}
+
+	/*if (pCurrent->GetLeft() == nullptr && pCurrent->GetRight() == nullptr)
 	{
 		if (pParent->GetLeft() == pCurrent)
 			pParent->SetLeft(nullptr);
@@ -121,8 +163,7 @@ void BinaryTree::Remove(int a_nValue)
 			pParent->SetRight(nullptr);
 
 		delete pCurrent;
-	}
-	
+	}*/
 }
 
 void BinaryTree::PrintOrdered()
