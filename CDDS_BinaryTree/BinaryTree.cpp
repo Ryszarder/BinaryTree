@@ -127,12 +127,12 @@ void BinaryTree::Remove(int a_nValue)
 
 		if (pParent->GetLeft() == pCurrent)
 		{
-			pMinimum->SetRight(pParent->GetLeft());
+			pParent->SetLeft(pMinimum->GetRight());
 		}
 
 		if (pParent->GetRight() == pCurrent)
 		{
-			pMinimum->SetRight(pParent->GetRight());
+			pParent->SetRight(pMinimum->GetRight());
 		}
 	}
 
@@ -140,12 +140,12 @@ void BinaryTree::Remove(int a_nValue)
 	{
 		if (pParent->GetLeft() == pCurrent)
 		{
-			pCurrent->SetLeft(pParent->GetLeft());
+			pParent->SetLeft(pCurrent->GetLeft());
 		}
 
 		if (pParent->GetRight() == pCurrent)
 		{
-			pCurrent->SetLeft(pParent->GetRight());
+			pParent->SetRight(pCurrent->GetLeft());
 		}
 
 		if (pParent == pCurrent)
