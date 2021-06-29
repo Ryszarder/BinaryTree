@@ -34,44 +34,80 @@ bool BinaryTree::IsEmpty() const
 // Smaller elements are placed to the left, larger onces are placed to the right.
 void BinaryTree::Insert(int a_nValue)
 {
-	TreeNode* node = new TreeNode(a_nValue);
+	TreeNode* pNode = new TreeNode(a_nValue);
+	bool run = true;
 
 	if (IsEmpty())
 	{
-		m_pRoot = node;
+		m_pRoot = pNode;
 	}
 
 	else
 	{
 		TreeNode* pCurrentNode = m_pRoot;
-		while (pCurrentNode != nullptr)
+		while (run)
 		{
-			if (a_nValue < pCurrentNode->GetData())
+			if (pNode->GetData() < pCurrentNode->GetData())
 			{
-				pCurrentNode->SetLeft(pCurrentNode);
+				if (pCurrentNode->HasLeft() == 1)
+				{
+					pCurrentNode = pCurrentNode->GetLeft();
+				}
+				
+				if (pCurrentNode->HasLeft() == 0)
+				{
+					pCurrentNode->SetLeft(pNode);
+					run = false;
+				}
 			}
 
-			if (a_nValue > pCurrentNode->GetData())
+			if (pNode->GetData() > pCurrentNode->GetData())
 			{
-				pCurrentNode->SetRight(pCurrentNode);
-			}
+				if (pCurrentNode->HasRight() == 1)
+				{
+					pCurrentNode = pCurrentNode->GetRight();
+				}
 
-			if (a_nValue = pCurrentNode->GetData())
-			{
-				break;
+				if (pCurrentNode->HasRight() == 0)
+				{
+					pCurrentNode->SetRight(pNode);
+					run = false;
+				}
 			}
-		}
-
-		TreeNode* pParent = pCurrentNode;
-		if (a_nValue < pParent->GetData())
-		{
-			pCurrentNode->SetData(a_nValue);
-		}
-		else
-		{
-			pCurrentNode->SetData(a_nValue);
 		}
 	}
+
+	//else
+	//{
+	//	TreeNode* pCurrentNode = m_pRoot;
+	//	while (pCurrentNode != nullptr)
+	//	{
+	//		if (a_nValue < pCurrentNode->GetData())
+	//		{
+	//			pCurrentNode->SetLeft(pCurrentNode);
+	//		}
+
+	//		if (a_nValue > pCurrentNode->GetData())
+	//		{
+	//			pCurrentNode->SetRight(pCurrentNode);
+	//		}
+
+	//		if (a_nValue == pCurrentNode->GetData())
+	//		{
+	//			break;
+	//		}
+	//	}
+
+	//	TreeNode* pParent = pCurrentNode;
+	//	if (a_nValue < pParent->GetData())
+	//	{
+	//		pCurrentNode->SetData(a_nValue);
+	//	}
+	//	else
+	//	{
+	//		pCurrentNode->SetData(a_nValue);
+	//	}
+	//}
 }
 
 TreeNode* BinaryTree::Find(int a_nValue)
