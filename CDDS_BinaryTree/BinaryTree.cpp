@@ -54,7 +54,7 @@ void BinaryTree::Insert(int a_nValue)
 					pCurrentNode = pCurrentNode->GetLeft();
 				}
 				
-				if (pCurrentNode->HasLeft() == 0)
+				else if (pCurrentNode->HasLeft() == 0)
 				{
 					pCurrentNode->SetLeft(pNode);
 					run = false;
@@ -68,7 +68,7 @@ void BinaryTree::Insert(int a_nValue)
 					pCurrentNode = pCurrentNode->GetRight();
 				}
 
-				if (pCurrentNode->HasRight() == 0)
+				else if (pCurrentNode->HasRight() == 0)
 				{
 					pCurrentNode->SetRight(pNode);
 					run = false;
@@ -131,11 +131,13 @@ bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& p
 		
 		else if (a_nSearchValue < ppOutNode->GetData())
 		{
+			ppOutParent = ppOutNode;
 			ppOutNode = ppOutNode->GetLeft();
 		}
 
 		else
 		{
+			ppOutParent = ppOutNode;
 			ppOutNode = ppOutNode->GetRight();
 		}
 	}
@@ -175,7 +177,7 @@ void BinaryTree::Remove(int a_nValue)
 
 	FindNode(a_nValue, pCurrentNode, pParentNode);
 
-	if (pCurrentNode->GetLeft() == nullptr && pCurrentNode->GetLeft() == nullptr)
+	if (pCurrentNode->GetLeft() == nullptr && pCurrentNode->GetRight() == nullptr)
 	{
 		if (pParentNode->GetLeft() == pCurrentNode)
 		{
