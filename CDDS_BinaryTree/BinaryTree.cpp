@@ -220,8 +220,7 @@ void BinaryTree::Remove(int a_nValue)
 	else if (pCurrentNode->HasLeft() && pCurrentNode->HasRight())
 	{
 		TreeNode* pDeleteParent = nullptr;
-		pParentNode = pCurrentNode;
-		pCurrentNode = pCurrentNode->GetLeft();
+		pCurrentNode = pCurrentNode->GetRight();
 
 		bool run = true;
 
@@ -243,6 +242,7 @@ void BinaryTree::Remove(int a_nValue)
 		if (pCurrentNode->HasRight() == false)
 		{
 			delete pCurrentNode;
+			pParentNode->SetRight(nullptr);
 		}
 
 		else if (pCurrentNode->HasRight())
