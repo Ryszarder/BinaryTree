@@ -121,6 +121,7 @@ TreeNode* BinaryTree::Find(int a_nValue)
 bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& ppOutParent)
 {
 	 ppOutNode = m_pRoot;
+	 ppOutParent = ppOutNode;
 
 	while (ppOutNode != nullptr)
 	{
