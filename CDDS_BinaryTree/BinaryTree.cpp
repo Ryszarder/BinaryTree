@@ -120,7 +120,28 @@ TreeNode* BinaryTree::Find(int a_nValue)
 
 bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& ppOutParent)
 {
-	ppOutNode = m_pRoot;
+	 ppOutNode = m_pRoot;
+
+	while (ppOutNode != nullptr)
+	{
+		if (a_nSearchValue == ppOutNode->GetData())
+		{
+			return ppOutNode, ppOutParent;
+		}
+		
+		else if (a_nSearchValue < ppOutNode->GetData())
+		{
+			ppOutNode = ppOutNode->GetLeft();
+		}
+
+		else
+		{
+			ppOutNode = ppOutNode->GetRight();
+		}
+	}
+
+
+	/*ppOutNode = m_pRoot;
 	while (ppOutNode != nullptr)
 	{
 		if (a_nSearchValue == ppOutNode->GetData())
@@ -142,7 +163,7 @@ bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& p
 	if (true)
 	{
 		return false;
-	}
+	}*/
 
 	return false;
 }
