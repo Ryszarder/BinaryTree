@@ -13,11 +13,14 @@ using namespace std;
 
 BinaryTree::BinaryTree()
 {
+	//Itialize the root as nullptr
 	m_pRoot = nullptr;
 }
 
 BinaryTree::~BinaryTree()
 {
+
+	//Deletes the root
 	while (m_pRoot)
 	{
 		Remove(m_pRoot->GetData());
@@ -34,80 +37,68 @@ bool BinaryTree::IsEmpty() const
 // Smaller elements are placed to the left, larger onces are placed to the right.
 void BinaryTree::Insert(int a_nValue)
 {
+	//Inserts the value into the new node
 	TreeNode* pNode = new TreeNode(a_nValue);
+
+	//Bool so the while loop will run
 	bool run = true;
 
+	//Is the Tree is empty enter
 	if (IsEmpty())
 	{
+		//Sets the node at the root
 		m_pRoot = pNode;
 	}
 
 	else
 	{
+		//Creates a new node that equal to the root
 		TreeNode* pCurrentNode = m_pRoot;
 		while (run)
 		{
+			//If the value in pNode is smaller than the value in pCurrentNode enter
 			if (pNode->GetData() < pCurrentNode->GetData())
 			{
+				//pCurrentNode has a left node is true enter
 				if (pCurrentNode->HasLeft() == 1)
 				{
+					//pCurrentNode equals to the left child node of pCurrentNode
 					pCurrentNode = pCurrentNode->GetLeft();
 				}
 				
+				//Else if pCurrent node doesn't have a left node enter
 				else if (pCurrentNode->HasLeft() == 0)
 				{
+					//Creates a left child node for pCurrentNode where pNode in inserted
 					pCurrentNode->SetLeft(pNode);
+					
+					//Set the bool to flase ending the while loop
 					run = false;
 				}
 			}
 
+			//If the value in pNode is greater than the value in pCurrentNode enter
 			if (pNode->GetData() > pCurrentNode->GetData())
 			{
+				//pCurrentNode equals to the right child node of pCurrentNode
 				if (pCurrentNode->HasRight() == 1)
 				{
+					//pCurrentNode equals to the right child node of pCurrentNode
 					pCurrentNode = pCurrentNode->GetRight();
 				}
 
+				//Else if pCurrent node doesn't have a right node enter
 				else if (pCurrentNode->HasRight() == 0)
 				{
+					//Creates a right child node for pCurrentNode where pNode in inserted
 					pCurrentNode->SetRight(pNode);
+
+					//Set the bool to flase ending the while loop
 					run = false;
 				}
 			}
 		}
 	}
-
-	//else
-	//{
-	//	TreeNode* pCurrentNode = m_pRoot;
-	//	while (pCurrentNode != nullptr)
-	//	{
-	//		if (a_nValue < pCurrentNode->GetData())
-	//		{
-	//			pCurrentNode->SetLeft(pCurrentNode);
-	//		}
-
-	//		if (a_nValue > pCurrentNode->GetData())
-	//		{
-	//			pCurrentNode->SetRight(pCurrentNode);
-	//		}
-
-	//		if (a_nValue == pCurrentNode->GetData())
-	//		{
-	//			break;
-	//		}
-	//	}
-
-	//	TreeNode* pParent = pCurrentNode;
-	//	if (a_nValue < pParent->GetData())
-	//	{
-	//		pCurrentNode->SetData(a_nValue);
-	//	}
-	//	else
-	//	{
-	//		pCurrentNode->SetData(a_nValue);
-	//	}
-	//}
 }
 
 TreeNode* BinaryTree::Find(int a_nValue)
@@ -120,198 +111,169 @@ TreeNode* BinaryTree::Find(int a_nValue)
 
 bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& ppOutParent)
 {
-	 ppOutNode = m_pRoot;
-	 ppOutParent = ppOutNode;
+	//ppOutNode equals the root
+	ppOutNode = m_pRoot;
 
+	//ppOutParent equals ppOutNode
+	ppOutParent = ppOutNode;
+
+	//ppOutNode doesn't equal false
 	while (ppOutNode != nullptr)
 	{
+		//The search value equals ppOutNode value
 		if (a_nSearchValue == ppOutNode->GetData())
 		{
+			//return the TreeNodes
 			return ppOutNode, ppOutParent;
 		}
 		
+		//The search value smaller than ppOutNode value
 		else if (a_nSearchValue < ppOutNode->GetData())
 		{
+			//ppOutParent equals ppOutNode
 			ppOutParent = ppOutNode;
+
+			//ppOutNode equals ppOutNode left child
 			ppOutNode = ppOutNode->GetLeft();
 		}
 
 		else
 		{
+			//ppOutParent equals ppOutNode
 			ppOutParent = ppOutNode;
+
+			//ppOutNode equals ppOutNode right child
 			ppOutNode = ppOutNode->GetRight();
 		}
 	}
 
-
-	/*ppOutNode = m_pRoot;
-	while (ppOutNode != nullptr)
-	{
-		if (a_nSearchValue == ppOutNode->GetData())
-		{
-			return ppOutNode, ppOutParent;
-		}
-		else
-		{
-			if (a_nSearchValue < ppOutNode->GetData())
-			{
-				ppOutNode->SetLeft(ppOutNode);
-			}
-			else
-			{
-				ppOutNode->SetRight(ppOutNode);
-			}
-		}
-	}
-	if (true)
-	{
-		return false;
-	}*/
-
+	//ppOutNode did equal false
 	return false;
 }
 
 void BinaryTree::Remove(int a_nValue)
 {
+	//Creates the Nodes needed for the remove function
 	TreeNode* pCurrentNode = nullptr;
 	TreeNode* pParentNode = nullptr;
 	TreeNode* pNewNode = nullptr;
+	TreeNode* pDeleteParent = nullptr;
 
+	//Using the int value to find the pCurrentNode with the same value and its pParentNode
 	FindNode(a_nValue, pCurrentNode, pParentNode);
 
+	//Deleting single node
+	//pCurrentNode doesn't has a left or right child node 
 	if (pCurrentNode->GetLeft() == nullptr && pCurrentNode->GetRight() == nullptr)
 	{
+		//pParentNode left child equal pCurrentNode
 		if (pParentNode->GetLeft() == pCurrentNode)
 		{
+			//Sets pParentNode left child nullptr
 			pParentNode->SetLeft(nullptr);
 		}
 
+		//pParentNode left child equal pCurrentNode
 		if (pParentNode->GetRight() == pCurrentNode)
 		{
+			//Sets pParentNode left child nullptr
 			pParentNode->SetRight(nullptr);
 		}
 
+		//Deletes pCurrentNode
 		delete pCurrentNode;
 	}
 
+	//Deleting Node with two children
+	//pCurrentNode has a left and right child node
 	else if (pCurrentNode->HasLeft() && pCurrentNode->HasRight())
 	{
-		TreeNode* pDeleteParent = nullptr;
+		//pParentNode equals pCurrentNode
 		pParentNode = pCurrentNode;
+		//pCurrentNode equals pCurrentNode rigth child
 		pCurrentNode = pCurrentNode->GetRight();
 
+		//Bool to run the while loop
 		bool run = true;
 
 		while (run)
 		{
+			//pCurrentNode has a left child
 			if (pCurrentNode->HasLeft())
 			{
+				//pDeleteParent equals pCurrentNode
 				pDeleteParent = pCurrentNode;
+
+				//pCurrentNode equals pCurrentNode left child
 				pCurrentNode = pCurrentNode->GetLeft();
 			}
 
+			//Else pCurrentNode doesn't have a left child
 			else if (pCurrentNode->HasLeft() == false)
 			{
+				//pParentNode value to pCurrentNode value
 				pParentNode->SetData(pCurrentNode->GetData());
+
+				//Set bool to false to end while loop
 				run = false;
 			}
 		}
 
+		//pCurrentNode doesn't have a right child
 		if (pCurrentNode->HasRight() == false)
 		{
+			//delete pCurrentNode
 			delete pCurrentNode;
+
+			//Set pParentNode right child to nullptr
 			pParentNode->SetRight(nullptr);
 		}
 
+		//pCurrentNode has a right child
 		else if (pCurrentNode->HasRight())
 		{
+			//pNewNode = pCurrentNode right child
 			pNewNode = pCurrentNode->GetRight();
+
+			//Set pDeleteParent left child to pNewNode
 			pDeleteParent->SetLeft(pNewNode);
+
+			//delete pCurrentNode
 			delete pCurrentNode;
 		}
 	}
 
+	//pCurrentNode has at least a left or right child
 	else if (pCurrentNode->HasLeft() || pCurrentNode->HasRight())
 	{
+		//pCurrentNode does have a left child
 		if (pCurrentNode->GetLeft() != nullptr)
 		{
+			//pNewNode equals pCurrentNode left child
 			pNewNode = pCurrentNode->GetLeft();
 		}
 
+		//pCurrentNode does have a right child
 		else if (pCurrentNode->GetRight() != nullptr)
 		{
+			//pNewNode equals pCurrentNode left child
 			pNewNode = pCurrentNode->GetRight();
 		}
 
+		//pParentNode left child equals pCurrentNode
 		if (pParentNode->GetLeft() == pCurrentNode)
 		{
+			//Set pParentNode left child to pNewNode
 			pParentNode->SetLeft(pNewNode);
 		}
 
+		//pParentNode right child equals pCurrentNode
 		else if (pParentNode->GetRight() == pCurrentNode)
 		{
+			//Set pParentNode right child to pNewNode
 			pParentNode->SetRight(pNewNode);
 		}
 	}
-
-	
-
-	/*TreeNode* pCurrent = nullptr;
-	TreeNode* pParent = nullptr;
-
-	FindNode(a_nValue, pCurrent, pParent);
-
-	TreeNode* pMinimum = pCurrent->GetRight();
-
-	if (pCurrent->HasRight())
-	{
-		while (pMinimum->HasLeft())
-		{
-			pParent = pMinimum;
-			pMinimum = pMinimum->GetLeft();
-		}
-
-		pCurrent = pMinimum;
-
-		if (pParent->GetLeft() == pMinimum)
-		{
-			pParent->SetLeft(pMinimum->GetRight());
-		}
-
-		if (pParent->GetRight() == pMinimum)
-		{
-			pParent->SetRight(pMinimum->GetRight());
-		}
-	}
-
-	if (!pCurrent->HasRight())
-	{
-		if (pParent->GetLeft() != nullptr)
-		{
-			pParent->SetLeft(pCurrent->GetLeft());
-		}
-
-		if (pParent->GetRight() == pCurrent)
-		{
-			pParent->SetRight(pCurrent->GetLeft());
-		}
-
-		if (pParent == pCurrent)
-		{
-			pCurrent->SetLeft(pParent);
-		}
-
-	}*/
-
-	/*if (pCurrent->GetLeft() == nullptr && pCurrent->GetRight() == nullptr)
-	{
-		if (pParent->GetLeft() == pCurrent)
-			pParent->SetLeft(nullptr);
-		if (pParent->GetRight() == pCurrent)
-			pParent->SetRight(nullptr);
-
-		delete pCurrent;
-	}*/
 }
 
 void BinaryTree::PrintOrdered()
