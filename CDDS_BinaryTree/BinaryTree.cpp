@@ -194,32 +194,10 @@ void BinaryTree::Remove(int a_nValue)
 		delete pCurrentNode;
 	}
 
-	else if (pCurrentNode->HasLeft() || pCurrentNode->HasRight())
-	{
-		if (pCurrentNode->GetLeft() != nullptr)
-		{
-			pNewNode = pCurrentNode->GetLeft();
-		}
-
-		else if (pCurrentNode->GetRight() != nullptr)
-		{
-			pNewNode = pCurrentNode->GetRight();
-		}
-
-		if (pParentNode->GetLeft() == pCurrentNode)
-		{
-			pParentNode->SetLeft(pNewNode);
-		}
-
-		else if (pParentNode->GetRight() == pCurrentNode)
-		{
-			pParentNode->SetRight(pNewNode);
-		}
-	}
-
 	else if (pCurrentNode->HasLeft() && pCurrentNode->HasRight())
 	{
 		TreeNode* pDeleteParent = nullptr;
+		pParentNode = pCurrentNode;
 		pCurrentNode = pCurrentNode->GetRight();
 
 		bool run = true;
@@ -249,8 +227,34 @@ void BinaryTree::Remove(int a_nValue)
 		{
 			pNewNode = pCurrentNode->GetRight();
 			pDeleteParent->SetLeft(pNewNode);
+			delete pCurrentNode;
 		}
 	}
+
+	else if (pCurrentNode->HasLeft() || pCurrentNode->HasRight())
+	{
+		if (pCurrentNode->GetLeft() != nullptr)
+		{
+			pNewNode = pCurrentNode->GetLeft();
+		}
+
+		else if (pCurrentNode->GetRight() != nullptr)
+		{
+			pNewNode = pCurrentNode->GetRight();
+		}
+
+		if (pParentNode->GetLeft() == pCurrentNode)
+		{
+			pParentNode->SetLeft(pNewNode);
+		}
+
+		else if (pParentNode->GetRight() == pCurrentNode)
+		{
+			pParentNode->SetRight(pNewNode);
+		}
+	}
+
+	
 
 	/*TreeNode* pCurrent = nullptr;
 	TreeNode* pParent = nullptr;
