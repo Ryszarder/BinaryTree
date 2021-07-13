@@ -180,6 +180,11 @@ void BinaryTree::Remove(int a_nValue)
 			pParentNode->SetRight(nullptr);
 		}
 
+		if (m_pRoot == pCurrentNode)
+		{
+			m_pRoot = nullptr;
+		}
+
 		//Deletes pCurrentNode
 		delete pCurrentNode;
 	}
@@ -190,6 +195,10 @@ void BinaryTree::Remove(int a_nValue)
 	{
 		//pParentNode equals pCurrentNode
 		pParentNode = pCurrentNode;
+
+		//pDeleteParent equals pCurrentNode
+		pDeleteParent = pCurrentNode;
+
 		//pCurrentNode equals pCurrentNode rigth child
 		pCurrentNode = pCurrentNode->GetRight();
 
@@ -222,11 +231,20 @@ void BinaryTree::Remove(int a_nValue)
 		//pCurrentNode doesn't have a right child
 		if (pCurrentNode->HasRight() == false)
 		{
+			if (pDeleteParent->GetLeft() == pCurrentNode)
+			{
+				//Set pParentNode left child to nullptr
+				pDeleteParent->SetLeft(nullptr);
+			}
+
+			else
+			{
+				//Set pDeleteParent right child to nullptr
+				pDeleteParent->SetRight(nullptr);
+			}
+
 			//delete pCurrentNode
 			delete pCurrentNode;
-
-			//Set pParentNode right child to nullptr
-			pParentNode->SetRight(nullptr);
 		}
 
 		//pCurrentNode has a right child
@@ -235,11 +253,11 @@ void BinaryTree::Remove(int a_nValue)
 			//pNewNode = pCurrentNode right child
 			pNewNode = pCurrentNode->GetRight();
 
-			//Set pDeleteParent left child to pNewNode
-			pDeleteParent->SetLeft(pNewNode);
-
 			//delete pCurrentNode
 			delete pCurrentNode;
+
+			//Set pDeleteParent Right child to pNewNode
+			pDeleteParent->SetRight(pNewNode);
 		}
 	}
 
