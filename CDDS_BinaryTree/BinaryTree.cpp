@@ -350,7 +350,6 @@ void BinaryTree::Remove(int a_nValue)
 
 				delete pCurrentNode;
 			}
-			
 		}
 
 		//pCurrentNode right child equals pNewNode
@@ -418,9 +417,7 @@ void BinaryTree::Remove(int a_nValue)
 				//delete pCurrentNode
 				delete pCurrentNode;
 			}
-			
 		}
-	
 	}
 }
 
