@@ -274,21 +274,21 @@ void BinaryTree::Remove(int a_nValue)
 	else if (pCurrentNode->HasLeft() || pCurrentNode->HasRight())
 	{
 		//pCurrentNode does have a left child
-		if (pCurrentNode->GetLeft())
+		if (pCurrentNode->HasLeft())
 		{
 			//pNewNode equals pCurrentNode left child
 			pNewNode = pCurrentNode->GetLeft();
 		}
 
 		//pCurrentNode does have a right child
-		else if (pCurrentNode->GetRight())
+		else if (pCurrentNode->HasRight())
 		{
 			//pNewNode equals pCurrentNode left child
 			pNewNode = pCurrentNode->GetRight();
 		}
 
-		//pParentNode left child equals pCurrentNode
-		if (pParentNode->GetLeft() == pNewNode)
+		//pCurrentNode left child equals pNewNode
+		if (pCurrentNode->GetLeft() == pNewNode)
 		{
 			if (m_pRoot->GetLeft() == pNewNode)
 			{
@@ -316,22 +316,41 @@ void BinaryTree::Remove(int a_nValue)
 		}
 
 		//pParentNode right child equals pCurrentNode
-		else if (pParentNode->GetRight() == pNewNode)
+		else if (pCurrentNode->GetRight() == pNewNode)
 		{
 			if (m_pRoot->GetRight() == pNewNode)
 			{
-				/*pCurrentNode->SetData(pNewNode->GetData());*/
 				pParentNode = nullptr;
 				pCurrentNode = nullptr;
 
-				m_pRoot->SetData(pNewNode->GetData());
-
-				m_pRoot->SetRight(nullptr);
-				m_pRoot->SetLeft(nullptr);
-				
-				delete pNewNode;
 				delete pParentNode;
 				delete pCurrentNode;
+
+				m_pRoot->SetData(pNewNode->GetData());
+				
+				if (pNewNode->HasRight() && pNewNode->HasLeft())
+				{
+					m_pRoot->SetLeft(pNewNode->GetLeft());
+					m_pRoot->SetRight(pNewNode->GetRight());
+					pNewNode->SetLeft(nullptr);
+				}
+				else if (pNewNode->HasRight() == false && pNewNode->HasLeft())
+				{
+					m_pRoot->SetLeft(pNewNode->GetLeft());
+					pNewNode->SetLeft(nullptr);
+				}
+				else if (pNewNode->HasRight() && pNewNode->HasLeft() == false)
+				{
+					m_pRoot->SetRight(pNewNode->GetRight());
+					pNewNode->SetRight(nullptr);
+				}
+				else
+				{
+					m_pRoot->SetRight(nullptr);
+					m_pRoot->SetLeft(nullptr);
+
+					delete pNewNode;
+				}
 			}
 
 			else
