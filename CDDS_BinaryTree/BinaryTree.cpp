@@ -290,19 +290,57 @@ void BinaryTree::Remove(int a_nValue)
 		//pCurrentNode left child equals pNewNode
 		if (pCurrentNode->GetLeft() == pNewNode)
 		{
+			//The Root left child node equals pNewNode
 			if (m_pRoot->GetLeft() == pNewNode)
 			{
+				//Set the pParentNode and pCurrentNode to null
 				pParentNode = nullptr;
 				pCurrentNode = nullptr;
 
-				m_pRoot->SetData(pNewNode->GetData());
-
-				m_pRoot->SetRight(nullptr);
-				m_pRoot->SetLeft(nullptr);
-
-				delete pNewNode;
+				//delete the pParentNide and pCurrentNode 
 				delete pParentNode;
 				delete pCurrentNode;
+
+				//Set the root data value to pNewNode data value
+				m_pRoot->SetData(pNewNode->GetData());
+
+				//pNewNode has a right child and left child
+				if (pNewNode->HasRight() && pNewNode->HasLeft())
+				{
+					//Set root left child to pNewNode left child node
+					m_pRoot->SetLeft(pNewNode->GetLeft());
+					//Set root left child to pNewNode left child node
+					m_pRoot->SetRight(pNewNode->GetRight());
+					//Set pNewNode left child to null
+					pNewNode->SetLeft(nullptr);
+				}
+
+				//pNewNode has not a right child and has a left child
+				else if (pNewNode->HasRight() == false && pNewNode->HasLeft())
+				{
+					//Set Root left child to equal pNewNode left child
+					m_pRoot->SetLeft(pNewNode->GetLeft());
+					//Set pNewNode left child to null
+					pNewNode->SetLeft(nullptr);
+				}
+				//pNewNode has a right child and no left child
+				else if (pNewNode->HasRight() && pNewNode->HasLeft() == false)
+				{
+					//Set root right child to equal pNewNode right child
+					m_pRoot->SetRight(pNewNode->GetRight());
+					//Set pNewNode right child to null
+					pNewNode->SetRight(nullptr);
+				}
+				//pNewNode has no right or left child
+				else
+				{
+					//Set right child and left child of root to null
+					m_pRoot->SetRight(nullptr);
+					m_pRoot->SetLeft(nullptr);
+
+					//delete pNewNode
+					delete pNewNode;
+				}
 			}
 
 			else
@@ -315,49 +353,69 @@ void BinaryTree::Remove(int a_nValue)
 			
 		}
 
-		//pParentNode right child equals pCurrentNode
+		//pCurrentNode right child equals pNewNode
 		else if (pCurrentNode->GetRight() == pNewNode)
 		{
+			//The Root right child node equals pNewNode
 			if (m_pRoot->GetRight() == pNewNode)
 			{
+				//Set the pParentNode and pCurrentNode to null
 				pParentNode = nullptr;
 				pCurrentNode = nullptr;
 
+				//delete the pParentNide and pCurrentNode 
 				delete pParentNode;
 				delete pCurrentNode;
 
+				//Set the root data value to pNewNode data value
 				m_pRoot->SetData(pNewNode->GetData());
 				
+				//pNewNode has a right child and left child
 				if (pNewNode->HasRight() && pNewNode->HasLeft())
 				{
+					//Set root left child to pNewNode left child node
 					m_pRoot->SetLeft(pNewNode->GetLeft());
+					//Set root left child to pNewNode left child node
 					m_pRoot->SetRight(pNewNode->GetRight());
+					//Set pNewNode left child to null
 					pNewNode->SetLeft(nullptr);
 				}
+
+				//pNewNode has not a right child and has a left child
 				else if (pNewNode->HasRight() == false && pNewNode->HasLeft())
 				{
+					//Set Root left child to equal pNewNode left child
 					m_pRoot->SetLeft(pNewNode->GetLeft());
+					//Set pNewNode left child to null
 					pNewNode->SetLeft(nullptr);
 				}
+				//pNewNode has a right child and no left child
 				else if (pNewNode->HasRight() && pNewNode->HasLeft() == false)
 				{
+					//Set root right child to equal pNewNode right child
 					m_pRoot->SetRight(pNewNode->GetRight());
+					//Set pNewNode right child to null
 					pNewNode->SetRight(nullptr);
 				}
+				//pNewNode has no right or left child
 				else
 				{
+					//Set right child and left child of root to null
 					m_pRoot->SetRight(nullptr);
 					m_pRoot->SetLeft(nullptr);
 
+					//delete pNewNode
 					delete pNewNode;
 				}
 			}
 
+			//If the pCurrentNode is not the same as the root node
 			else
 			{
 				//Set pParentNode right child to pNewNode
 				pParentNode->SetRight(pNewNode);
 
+				//delete pCurrentNode
 				delete pCurrentNode;
 			}
 			
