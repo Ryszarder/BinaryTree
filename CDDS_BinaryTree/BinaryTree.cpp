@@ -218,7 +218,7 @@ void BinaryTree::Remove(int a_nValue)
 			}
 
 			//Else pCurrentNode doesn't have a left child
-			else if (pCurrentNode->HasLeft() == false)
+			else
 			{
 				//pParentNode value to pCurrentNode value
 				pParentNode->SetData(pCurrentNode->GetData());
@@ -256,8 +256,17 @@ void BinaryTree::Remove(int a_nValue)
 			//delete pCurrentNode
 			delete pCurrentNode;
 
-			//Set pDeleteParent Right child to pNewNode
-			pDeleteParent->SetRight(pNewNode);
+			if (pDeleteParent->GetData() < pNewNode->GetData())
+			{
+				pDeleteParent->SetRight(pNewNode);
+			}
+
+			else
+			{
+				//Set pDeleteParent Left child to pNewNode
+				pDeleteParent->SetLeft(pNewNode);
+			}
+			
 		}
 	}
 
@@ -265,32 +274,76 @@ void BinaryTree::Remove(int a_nValue)
 	else if (pCurrentNode->HasLeft() || pCurrentNode->HasRight())
 	{
 		//pCurrentNode does have a left child
-		if (pCurrentNode->GetLeft() != nullptr)
+		if (pCurrentNode->GetLeft())
 		{
 			//pNewNode equals pCurrentNode left child
 			pNewNode = pCurrentNode->GetLeft();
 		}
 
 		//pCurrentNode does have a right child
-		else if (pCurrentNode->GetRight() != nullptr)
+		else if (pCurrentNode->GetRight())
 		{
 			//pNewNode equals pCurrentNode left child
 			pNewNode = pCurrentNode->GetRight();
 		}
 
 		//pParentNode left child equals pCurrentNode
-		if (pParentNode->GetLeft() == pCurrentNode)
+		if (pParentNode->GetLeft() == pNewNode)
 		{
-			//Set pParentNode left child to pNewNode
-			pParentNode->SetLeft(pNewNode);
+			if (m_pRoot->GetLeft() == pNewNode)
+			{
+				pParentNode = nullptr;
+				pCurrentNode = nullptr;
+
+				m_pRoot->SetData(pNewNode->GetData());
+
+				m_pRoot->SetRight(nullptr);
+				m_pRoot->SetLeft(nullptr);
+
+				delete pNewNode;
+				delete pParentNode;
+				delete pCurrentNode;
+			}
+
+			else
+			{
+				//Set pParentNode left child to pNewNode
+				pParentNode->SetLeft(pNewNode);
+
+				delete pCurrentNode;
+			}
+			
 		}
 
 		//pParentNode right child equals pCurrentNode
-		else if (pParentNode->GetRight() == pCurrentNode)
+		else if (pParentNode->GetRight() == pNewNode)
 		{
-			//Set pParentNode right child to pNewNode
-			pParentNode->SetRight(pNewNode);
+			if (m_pRoot->GetRight() == pNewNode)
+			{
+				/*pCurrentNode->SetData(pNewNode->GetData());*/
+				pParentNode = nullptr;
+				pCurrentNode = nullptr;
+
+				m_pRoot->SetData(pNewNode->GetData());
+
+				m_pRoot->SetRight(nullptr);
+				m_pRoot->SetLeft(nullptr);
+				
+				delete pNewNode;
+				delete pParentNode;
+				delete pCurrentNode;
+			}
+
+			else
+			{
+				//Set pParentNode right child to pNewNode
+				pParentNode->SetRight(pNewNode);
+
+				delete pCurrentNode;
+			}
+			
 		}
+	
 	}
 }
 
